@@ -1,16 +1,16 @@
+import cv2 
+import pickle
 import numpy as np
 import os
 import time
 import mediapipe as mp
-from tensorflow import keras
 from flask import Flask, render_template, Response
-import cv2 
-
-
-app = Flask(__name__,template_folder= 'templates')
-
-model = keras.models.load_model('action (1).h5')
-actions = np.array(['hello', 'thanks', 'iloveyou'])
+app = Flask(__name__,template_folder= 'MP_Data/templates')
+model = loaded_model = pickle.load(open('dtreemodel.pkl', 'rb'))
+#model = keras.models.load_model('actionpro1.h5',compile = False)
+actions = np.array(['hello','bye','thanks', 'please','namaste','yes','no'])
+#model = keras.models.load_model('action (1).h5',compile = False)
+#actions = np.array(['hello', 'thanks', 'iloveyou'])
 label_map = {label:num for num, label in enumerate(actions)}
 # Thirty videos worth of data
 no_sequences = 30
@@ -64,7 +64,8 @@ def extract_keypoints(results):
     rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
     return np.concatenate([pose, face, lh, rh])
 
-colors = [(245,117,16), (117,245,16), (16,117,245)]
+colors = [(245,117,16), (117,245,16), (16,117,245),(245,117,16), (117,245,16), (16,117,245),(16,117,245)]
+#colors = [(245,117,16), (117,245,16), (16,117,245)]
 def prob_viz(res, actions, input_frame, colors):
     output_frame = input_frame.copy()
     for num, prob in enumerate(res):
@@ -89,20 +90,19 @@ def gen():
 
           # Make detections
           image, results = mediapipe_detection(frame, holistic)
-          print(results)
           
           # Draw landmarks
           draw_styled_landmarks(image, results)
           
           # 2. Prediction logic
           keypoints = extract_keypoints(results)
-  #         sequence.insert(0,keypoints)
-  #         sequence = sequence[:30]
+
           sequence.append(keypoints)
           sequence = sequence[-30:]
-          
+           
           if len(sequence) == 30:
-              res = model.predict(np.expand_dims(sequence, axis=0))[0]
+              
+              res = model.predict(np.expand_dims(np.array(sequence).flatten()  , axis=0))[0]
               print(actions[np.argmax(res)])
               
               
