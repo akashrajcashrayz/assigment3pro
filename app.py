@@ -1,5 +1,6 @@
 import cv2 
 import logging
+from sys import stdout
 from flask import Flask, render_template, Response
 from flask_socketio import SocketIO, emit
 import pickle
