@@ -12,4 +12,3 @@ MarkupSafe
 numpy
 opencv-python
 Werkzeug
-pickle
