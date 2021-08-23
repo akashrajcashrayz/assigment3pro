@@ -5,7 +5,7 @@ import os
 import time
 import mediapipe as mp
 from flask import Flask, render_template, Response
-app = Flask(__name__,template_folder= 'MP_Data/templates')
+app = Flask(__name__,template_folder= 'templates')
 model = loaded_model = pickle.load(open('dtreemodel.pkl', 'rb'))
 #model = keras.models.load_model('actionpro1.h5',compile = False)
 actions = np.array(['hello','bye','thanks', 'please','namaste','yes','no'])
