@@ -12,5 +12,4 @@ MarkupSafe
 numpy
 opencv-python
 Werkzeug
-tensorflow-cpu
 pickle
