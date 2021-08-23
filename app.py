@@ -11,10 +11,6 @@ import mediapipe as mp
 from flask import Flask, render_template, Response
 app = Flask(__name__,template_folder= 'templates')
 model = pickle.load(open('dtreemodel.pkl', 'rb'))
-app.logger.addHandler(logging.StreamHandler(stdout))
-app.config['SECRET_KEY'] = 'secret!'
-app.config['DEBUG'] = True
-socketio = SocketIO(app)
 #model = keras.models.load_model('actionpro1.h5',compile = False)
 actions = np.array(['hello','bye','thanks', 'please','namaste','yes','no'])
 #model = keras.models.load_model('action (1).h5',compile = False)
@@ -81,7 +77,7 @@ def prob_viz(res, actions, input_frame, colors):
         cv2.putText(output_frame, actions[num], (0, 85+num*40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
         
     return output_frame
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(-1)
 def gen():
   
   sequence = []
@@ -165,4 +161,4 @@ def video_feed():
     
 
 if __name__ == "__main__":
-	socketio.run(app)
+	app.run()
