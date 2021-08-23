@@ -12,3 +12,4 @@ MarkupSafe
 numpy
 opencv-python
 Werkzeug
+sklearn
