@@ -1,8 +1,5 @@
 mediapipe 
 setuptools==45
-click
-enum-compat
-enum34
 eventlet==0.30.2
 Flask
 gevent
@@ -13,10 +10,6 @@ itsdangerous
 Jinja2
 MarkupSafe
 numpy
-olefile
 opencv-python
-Pillow
-redis
-six
 Werkzeug
 tensorflow-cpu
